@@ -21,7 +21,7 @@ allprojects {
 
 need two argument "LyfecycleOwner" and "Google Map Api Key".
 
-``` 
+```java 
 GooglePlaceRepository googlePlaceRepository = new GooglePlaceRepository(this, "your_google_map_api_key");
 ``` 
 
@@ -41,7 +41,7 @@ need 4 arguments :
 	* String defaultUrlPicture
 	
 
-``` 
+```java 
 googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none").observe(this, finalPlaces -> {
                     for (FinalPlace finalPlace : finalPlaces){
                         Log.i("DEBUGGG", finalPlace.getName());
@@ -61,7 +61,7 @@ need 4 arguments :
 	* String type; // <a href="https://developers.google.com/places/web-service/autocomplete#place_types">List type</a>
 	* String defaultUrlPicture
 	
-``` 
+```java 
 googlePlaceRepository.getPlaceFromAutoComplete("pizza", "43.120541,6.128639", 5000, "establishment", "none")
 		     .observe(this, finalPlaces -> {
 			    for (FinalPlace finalPlace : finalPlaces){
@@ -78,7 +78,7 @@ need 2 arguments :
 	* String placeId;
 	* String defaultUrlPicture
 	
-``` 
+```java 
 googlePlaceRepository.getPlaceDetailsInfoFromId("SomeId", "none").observe(this, finalPlace -> {
             Log.i("DEBUGGG", finalPlace.getName());
         });
