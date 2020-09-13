@@ -37,9 +37,9 @@ need 4 arguments :
 
 	* String location;
 	* int radius;
-	* String type; // <a href="https://developers.google.com/places/web-service/supported_types">List type</a>
+	* String type; 
 	* String defaultUrlPicture
-	
+[List type](https://developers.google.com/places/web-service/supported_types)
 
 ```java 
 googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none").observe(this, finalPlaces -> {
@@ -58,8 +58,9 @@ need 4 arguments :
 	* String input;
 	* String location;
 	* int radius;
-	* String type; // <a href="https://developers.google.com/places/web-service/autocomplete#place_types">List type</a>
+	* String type; 
 	* String defaultUrlPicture
+[List type](https://developers.google.com/places/web-service/autocomplete#place_types)
 	
 ```java 
 googlePlaceRepository.getPlaceFromAutoComplete("pizza", "43.120541,6.128639", 5000, "establishment", "none")
