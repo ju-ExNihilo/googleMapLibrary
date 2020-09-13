@@ -37,13 +37,11 @@ need 4 arguments :
 	
 <pre>
 <code style="background: black;color:white">
-googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant",
-                "none").observe(this, finalPlaces -> {
+googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none").observe(this, finalPlaces -> {
                     for (FinalPlace finalPlace : finalPlaces){
                         Log.i("DEBUGGG", finalPlace.getName());
                     }
-
-        });
+});
 </code>
 </pre>
 
