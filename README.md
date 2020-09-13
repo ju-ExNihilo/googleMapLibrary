@@ -1,3 +1,4 @@
+<code>
 allprojects {
 		repositories {
 			...
@@ -9,3 +10,4 @@ allprojects {
   dependencies {
 	        implementation 'com.github.ju-ExNihilo:googleMapLibrary:0.1.1'
 	}
+</code>
