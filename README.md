@@ -53,7 +53,7 @@ googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none")
 ### 2) Search methode by input :
 
 
-need 4 arguments :   
+need 5 arguments :   
 
 	* String input;
 	* String location;
