@@ -1,3 +1,17 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		
+		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
+		<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+
+	</head>
+	<body >
+<pre>
+<code>
 For implementation :
 
 <pre style="background: black;color:white">
@@ -33,10 +47,10 @@ Methode :
 need 4 arguments : 
 	-String location;
 	-int radius;
-	-String type; 
+	-String type; // <a href="https://developers.google.com/places/web-service/supported_types">List type</a>
 	
-<pre>
-<code style="background: black;color:white">
+<pre class="prettyprint">
+<code class="language-java">
 googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none").observe(this, finalPlaces -> {
                     for (FinalPlace finalPlace : finalPlaces){
                         Log.i("DEBUGGG", finalPlace.getName());
@@ -51,11 +65,11 @@ need 4 arguments :
 	-String input;
 	-String location;
 	-int radius;
-	-String type; 
+	-String type; // <a href="https://developers.google.com/places/web-service/autocomplete#place_types">List type</a>
 	-String defaultUrlPicture
 	
-<pre style="background: black;color:white">
-<code>
+<pre class="prettyprint">
+<code class="language-java">
 googlePlaceRepository.getPlaceFromAutoComplete("pizza", "43.120541,6.128639", 5000, "establishment", "none")
 		     .observe(this, finalPlaces -> {
 			    for (FinalPlace finalPlace : finalPlaces){
@@ -71,12 +85,17 @@ need 2 arguments :
 	-String placeId;
 	-String defaultUrlPicture
 	
-<pre style="background: black;color:white">
-<code>
+<pre class="prettyprint">
+<code class="language-java">
 googlePlaceRepository.getPlaceDetailsInfoFromId("SomeId", "none").observe(this, finalPlace -> {
             Log.i("DEBUGGG", finalPlace.getName());
         });
 </code>
 </pre>
+</code>
+</pre>
+		
+	</body>
+</html>
 
 	
