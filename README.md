@@ -1,3 +1,4 @@
+<pre>
 <code>
 allprojects {
 		repositories {
@@ -11,3 +12,4 @@ allprojects {
 	        implementation 'com.github.ju-ExNihilo:googleMapLibrary:0.1.1'
 	}
 </code>
+</pre>
