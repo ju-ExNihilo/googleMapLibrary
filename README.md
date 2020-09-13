@@ -19,8 +19,8 @@ allprojects {
 </code>
 </pre>
 </div>
-
-Declaration : 
+ `code incorporé.`
+#Declaration : 
 
 need two argument "LyfecycleOwner" and "Google Map Api Key".
 
