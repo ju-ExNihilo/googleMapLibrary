@@ -19,7 +19,7 @@ allprojects {
 </code>
 </pre>
 </div>
- `code incorporé.`
+
 #Declaration : 
 
 need two argument "LyfecycleOwner" and "Google Map Api Key".
@@ -41,11 +41,11 @@ need 4 arguments :
 	
 <pre class="prettyprint">
 <code class="language-java">
-googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none").observe(this, finalPlaces -> {
+```googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant", "none").observe(this, finalPlaces -> {
                     for (FinalPlace finalPlace : finalPlaces){
                         Log.i("DEBUGGG", finalPlace.getName());
                     }
-});
+});```
 </code>
 </pre>
 
