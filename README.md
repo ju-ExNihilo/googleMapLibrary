@@ -18,7 +18,7 @@ allprojects {
 	}
 </code>
 </pre>
-<div>
+</div>
 
 Declaration : 
 
