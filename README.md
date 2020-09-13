@@ -1,12 +1,3 @@
-<!DOCTYPE HTML>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
-		<script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
-	</head>
-	<body>
 <pre>
 <code>
 For implementation :
@@ -91,7 +82,4 @@ googlePlaceRepository.getPlaceDetailsInfoFromId("SomeId", "none").observe(this, 
 </pre>
 </code>
 </pre>	
-	</body>
-</html>
-
 	
