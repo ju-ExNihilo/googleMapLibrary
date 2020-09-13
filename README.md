@@ -35,8 +35,8 @@ need 4 arguments :
 	-int radius;
 	-String type; 
 	
-<pre style="background: black;color:white">
-<code>
+<pre>
+<code style="background: black;color:white">
 googlePlaceRepository.getPlace("43.120541,6.128639", 5000, "restaurant",
                 "none").observe(this, finalPlaces -> {
                     for (FinalPlace finalPlace : finalPlaces){
@@ -64,6 +64,20 @@ googlePlaceRepository.getPlaceFromAutoComplete("pizza", "43.120541,6.128639", 50
 				Log.i("DEBUGGG", finalPlace.getName());
 			    }
 });
+</code>
+</pre>
+
+3) Search by id :
+
+need 2 arguments : 
+	-String placeId;
+	-String defaultUrlPicture
+	
+<pre style="background: black;color:white">
+<code>
+googlePlaceRepository.getPlaceDetailsInfoFromId("SomeId", "none").observe(this, finalPlace -> {
+            Log.i("DEBUGGG", finalPlace.getName());
+        });
 </code>
 </pre>
 
