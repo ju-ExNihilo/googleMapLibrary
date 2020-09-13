@@ -2,7 +2,8 @@
 <code>
 For implementation :
 
-<pre style="background: black;color:white">
+<div style="background: black;color:white">
+<pre>
 <code>
 allprojects {
 		repositories {
@@ -17,6 +18,7 @@ allprojects {
 	}
 </code>
 </pre>
+<div>
 
 Declaration : 
 
