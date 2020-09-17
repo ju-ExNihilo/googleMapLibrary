@@ -25,7 +25,7 @@ public class GooglePlaceRepository {
     private final MutableLiveData<FinalPlace> finalPlace = new MutableLiveData<>();
     private final MutableLiveData<PlaceSearch> placeSearch = new MutableLiveData<>();
     private FinalPlace finalGlobalPlace;
-    private List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
+    private final List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
     private LifecycleOwner owner;
     private String key;
 
@@ -50,7 +50,8 @@ public class GooglePlaceRepository {
     }
 
     /** **** Get restaurant from auto complete search  **** **/
-    private MutableLiveData<PlaceSearch> getPlaceFromAutoComplete(String input, String location, int radius, String type){
+    private MutableLiveData<PlaceSearch> getPrivatePlaceFromAutoComplete(String input, String location, int radius, String type){
+        finalPlacesArrayList.clear();
         googlePlaceService.getPlaceAutoComplete(input,type,location, radius,"",key, "1234567890").enqueue(new Callback<PlaceSearch>() {
             @Override
             public void onResponse(Call<PlaceSearch> call, Response<PlaceSearch> response) {
@@ -65,9 +66,8 @@ public class GooglePlaceRepository {
     }
 
     public MutableLiveData<List<FinalPlace>> getPlaceFromAutoComplete(String input, String location, int radius, String type, String defaultPictureUrl){
-        final MutableLiveData<List<FinalPlace>> placeFromSearch = new MutableLiveData<>();
-        finalPlacesArrayList.clear();
-        getPlaceFromAutoComplete(input, location, radius, type).observe(owner, placeSearch -> {
+        MutableLiveData<List<FinalPlace>> placeFromSearch = new MutableLiveData<>();
+        getPrivatePlaceFromAutoComplete(input, location, radius, type).observe(owner, placeSearch -> {
             if (!placeSearch.getPredictions().isEmpty()) {
                 final int[] c = {0};
                 for (Prediction prediction : placeSearch.getPredictions()) {
