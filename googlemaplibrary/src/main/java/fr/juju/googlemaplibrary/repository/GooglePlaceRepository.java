@@ -25,7 +25,6 @@ public class GooglePlaceRepository {
     private final MutableLiveData<FinalPlace> finalPlace = new MutableLiveData<>();
     private final MutableLiveData<PlaceSearch> placeSearch = new MutableLiveData<>();
     private FinalPlace finalGlobalPlace;
-    private final List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
     private LifecycleOwner owner;
     private String key;
 
@@ -51,7 +50,6 @@ public class GooglePlaceRepository {
 
     /** **** Get restaurant from auto complete search  **** **/
     private MutableLiveData<PlaceSearch> getPrivatePlaceFromAutoComplete(String input, String location, int radius, String type){
-        finalPlacesArrayList.clear();
         googlePlaceService.getPlaceAutoComplete(input,type,location, radius,"",key, "1234567890").enqueue(new Callback<PlaceSearch>() {
             @Override
             public void onResponse(Call<PlaceSearch> call, Response<PlaceSearch> response) {
@@ -70,8 +68,10 @@ public class GooglePlaceRepository {
         getPrivatePlaceFromAutoComplete(input, location, radius, type).observe(owner, placeSearch -> {
             if (!placeSearch.getPredictions().isEmpty()) {
                 final int[] c = {0};
+                final int n = placeSearch.getPredictions().size();
+                List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
+                finalPlacesArrayList.clear();
                 for (Prediction prediction : placeSearch.getPredictions()) {
-                    final int n = placeSearch.getPredictions().size();
                     googlePlaceService.getPlaceInfo(prediction.getPlaceId(), FIELD, key).enqueue(new Callback<Place>() {
                         @Override
                         public void onResponse(Call<Place> call, Response<Place> response) {
@@ -82,6 +82,8 @@ public class GooglePlaceRepository {
                                 if (c[0] == n) {
                                     placeFromSearch.setValue(finalPlacesArrayList);
                                 }
+                            }else {
+                                placeFromSearch.setValue(null);
                             }
                         }
 
@@ -118,21 +120,27 @@ public class GooglePlaceRepository {
 
     public MutableLiveData<List<FinalPlace>> getPlace(String location, int radius, String type,String defaultPictureUrl){
         MutableLiveData<List<FinalPlace>> finalPlacesList = new MutableLiveData<>();
+        List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
         finalPlacesArrayList.clear();
         getPlacesFromRetrofit(location, radius, type).observe(owner, nearbySearchPlace -> {
             final int[] c = {0};
+            int n = nearbySearchPlace.getNearbySearchPlaceResults().size();
             for (NearbySearchPlaceResult restaurants1 : nearbySearchPlace.getNearbySearchPlaceResults()){
-                int n = nearbySearchPlace.getNearbySearchPlaceResults().size();
                 googlePlaceService.getPlaceInfo(restaurants1.getPlaceId(), FIELD, key).enqueue(new Callback<Place>() {
                     @Override
                     public void onResponse(Call<Place> call, Response<Place> response) {
-                        addPlace(response.body(), defaultPictureUrl);
-                        finalPlacesArrayList.add(finalGlobalPlace);
-                        c[0]++;
-                        if (c[0] == n){ finalPlacesList.setValue(finalPlacesArrayList);}
+                        if (response.isSuccessful()){
+                            addPlace(response.body(), defaultPictureUrl);
+                            finalPlacesArrayList.add(finalGlobalPlace);
+                            c[0]++;
+                            if (c[0] == n){ finalPlacesList.setValue(finalPlacesArrayList);}
+                        }else {
+                            finalPlacesList.setValue(null);
+                        }
+
                     }
                     @Override
-                    public void onFailure(Call<Place> call, Throwable t) {}
+                    public void onFailure(Call<Place> call, Throwable t) {finalPlacesList.setValue(null);}
                 });
             }
         });
