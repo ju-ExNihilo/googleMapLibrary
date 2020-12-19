@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import fr.juju.googlemaplibrary.model.FinalPlace;
 import fr.juju.googlemaplibrary.model.autocomplete.PlaceSearch;
 import fr.juju.googlemaplibrary.model.autocomplete.Prediction;
+import fr.juju.googlemaplibrary.model.geocode.GeoPlaces;
 import fr.juju.googlemaplibrary.model.geocode.GeocodePlace;
 import fr.juju.googlemaplibrary.model.geocode.Result;
 import fr.juju.googlemaplibrary.model.nearbysearch.NearbySearchPlace;
@@ -150,11 +151,11 @@ public class GooglePlaceRepository {
 
     public MutableLiveData<GeocodePlace> getGeocodePlaceByAddress(String address){
         MutableLiveData<GeocodePlace> geocodeList = new MutableLiveData<>();
-        googlePlaceService.getPlaceGeoCode(address, key).enqueue(new Callback<Result>() {
+        googlePlaceService.getPlaceGeoCode(address, key).enqueue(new Callback<GeoPlaces>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(Call<GeoPlaces> call, Response<GeoPlaces> response) {
                 if (response.isSuccessful()) {
-                    GeocodePlace geocodePlace = initGeocodePlace(response.body());
+                    GeocodePlace geocodePlace = initGeocodePlace(response.body().getResults().get(0));
                     geocodeList.setValue(geocodePlace);
                 }else {
                     geocodeList.setValue(null);
@@ -162,7 +163,7 @@ public class GooglePlaceRepository {
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<GeoPlaces> call, Throwable t) {
                 geocodeList.setValue(null);
             }
         });
@@ -175,12 +176,12 @@ public class GooglePlaceRepository {
         if (result.getGeometry().getLocation().getLat() != null){
             geocodePlace.setLat(result.getGeometry().getLocation().getLat());
         }else {
-            geocodePlace.setLat(null);
+            geocodePlace.setLat(0.0);
         }
         if (result.getGeometry().getLocation().getLng() != null){
             geocodePlace.setLng(result.getGeometry().getLocation().getLng());
         }else {
-            geocodePlace.setLng(null);
+            geocodePlace.setLng(0.0);
         }
 
         return geocodePlace;
