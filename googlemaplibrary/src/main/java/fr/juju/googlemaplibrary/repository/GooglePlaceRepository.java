@@ -173,6 +173,12 @@ public class GooglePlaceRepository {
     private GeocodePlace initGeocodePlace(Result result){
         GeocodePlace geocodePlace = new GeocodePlace();
 
+        if (result.getPlaceId() != null){
+            geocodePlace.setPlaceId(result.getPlaceId());
+        }else {
+            geocodePlace.setPlaceId("null");
+        }
+
         if (result.getGeometry().getLocation().getLat() != null){
             geocodePlace.setLat(result.getGeometry().getLocation().getLat());
         }else {

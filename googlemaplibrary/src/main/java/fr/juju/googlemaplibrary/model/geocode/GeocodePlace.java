@@ -4,6 +4,7 @@ public class GeocodePlace {
 
     private Double lat;
     private Double lng;
+    private String placeId;
 
     public GeocodePlace() {}
 
@@ -23,11 +24,20 @@ public class GeocodePlace {
         this.lng = lng;
     }
 
+    public String getPlaceId() {
+        return placeId;
+    }
+
+    public void setPlaceId(String placeId) {
+        this.placeId = placeId;
+    }
+
     @Override
     public String toString() {
         return "GeocodePlace{" +
                 "lat=" + lat +
                 ", lng=" + lng +
+                ", placeId='" + placeId + '\'' +
                 '}';
     }
 }
