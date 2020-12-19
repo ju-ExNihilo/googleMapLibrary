@@ -155,8 +155,13 @@ public class GooglePlaceRepository {
             @Override
             public void onResponse(Call<GeoPlaces> call, Response<GeoPlaces> response) {
                 if (response.isSuccessful()) {
-                    GeocodePlace geocodePlace = initGeocodePlace(response.body().getResults().get(0));
-                    geocodeList.setValue(geocodePlace);
+                    if (response.body().getResults().get(0) != null){
+                        GeocodePlace geocodePlace = initGeocodePlace(response.body().getResults().get(0));
+                        geocodeList.setValue(geocodePlace);
+                    }else {
+                        geocodeList.setValue(null);
+                    }
+
                 }else {
                     geocodeList.setValue(null);
                 }
