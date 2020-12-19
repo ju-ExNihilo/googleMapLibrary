@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData;
 import fr.juju.googlemaplibrary.model.FinalPlace;
 import fr.juju.googlemaplibrary.model.autocomplete.PlaceSearch;
 import fr.juju.googlemaplibrary.model.autocomplete.Prediction;
+import fr.juju.googlemaplibrary.model.geocode.GeocodePlace;
+import fr.juju.googlemaplibrary.model.geocode.Result;
 import fr.juju.googlemaplibrary.model.nearbysearch.NearbySearchPlace;
 import fr.juju.googlemaplibrary.model.nearbysearch.NearbySearchPlaceResult;
 import fr.juju.googlemaplibrary.model.place.Place;
@@ -24,6 +26,7 @@ public class GooglePlaceRepository {
     private final MutableLiveData<NearbySearchPlace> finalPlaces = new MutableLiveData<>();
     private final MutableLiveData<FinalPlace> finalPlace = new MutableLiveData<>();
     private final MutableLiveData<PlaceSearch> placeSearch = new MutableLiveData<>();
+    private List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
     private FinalPlace finalGlobalPlace;
     private LifecycleOwner owner;
     private String key;
@@ -35,7 +38,7 @@ public class GooglePlaceRepository {
 
     /** **** Get restaurant from retrofit  **** **/
     private MutableLiveData<NearbySearchPlace> getPlacesFromRetrofit(String location, int radius, String type){
-        googlePlaceService.getRestaurants(location, radius,type, key).enqueue(new Callback<NearbySearchPlace>() {
+        googlePlaceService.getPlaceListByType(location, radius,type, key).enqueue(new Callback<NearbySearchPlace>() {
             @Override
             public void onResponse(Call<NearbySearchPlace> call, Response<NearbySearchPlace> response) {
                 if (response.isSuccessful()){
@@ -69,7 +72,6 @@ public class GooglePlaceRepository {
             if (!placeSearch.getPredictions().isEmpty()) {
                 final int[] c = {0};
                 final int n = placeSearch.getPredictions().size();
-                List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
                 finalPlacesArrayList.clear();
                 for (Prediction prediction : placeSearch.getPredictions()) {
                     googlePlaceService.getPlaceInfo(prediction.getPlaceId(), FIELD, key).enqueue(new Callback<Place>() {
@@ -120,11 +122,10 @@ public class GooglePlaceRepository {
 
     public MutableLiveData<List<FinalPlace>> getPlace(String location, int radius, String type,String defaultPictureUrl){
         MutableLiveData<List<FinalPlace>> finalPlacesList = new MutableLiveData<>();
-        List<FinalPlace> finalPlacesArrayList = new ArrayList<>();
-        finalPlacesArrayList.clear();
         getPlacesFromRetrofit(location, radius, type).observe(owner, nearbySearchPlace -> {
             final int[] c = {0};
             int n = nearbySearchPlace.getNearbySearchPlaceResults().size();
+            finalPlacesArrayList.clear();
             for (NearbySearchPlaceResult restaurants1 : nearbySearchPlace.getNearbySearchPlaceResults()){
                 googlePlaceService.getPlaceInfo(restaurants1.getPlaceId(), FIELD, key).enqueue(new Callback<Place>() {
                     @Override
@@ -147,7 +148,44 @@ public class GooglePlaceRepository {
         return finalPlacesList;
     }
 
+    public MutableLiveData<GeocodePlace> getGeocodePlaceByAddress(String address){
+        MutableLiveData<GeocodePlace> geocodeList = new MutableLiveData<>();
+        googlePlaceService.getPlaceGeoCode(address, key).enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                if (response.isSuccessful()) {
+                    GeocodePlace geocodePlace = initGeocodePlace(response.body());
+                    geocodeList.setValue(geocodePlace);
+                }else {
+                    geocodeList.setValue(null);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                geocodeList.setValue(null);
+            }
+        });
+        return geocodeList;
+    }
+
+    private GeocodePlace initGeocodePlace(Result result){
+        GeocodePlace geocodePlace = new GeocodePlace();
+
+        if (result.getGeometry().getLocation().getLat() != null){
+            geocodePlace.setLat(result.getGeometry().getLocation().getLat());
+        }else {
+            geocodePlace.setLat(null);
+        }
+        if (result.getGeometry().getLocation().getLng() != null){
+            geocodePlace.setLng(result.getGeometry().getLocation().getLng());
+        }else {
+            geocodePlace.setLng(null);
+        }
+
+        return geocodePlace;
+
+    }
 
     private void addPlace(Place place, String defaultPictureUrl){
         finalGlobalPlace = new FinalPlace();
