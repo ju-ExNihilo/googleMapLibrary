@@ -84,4 +84,19 @@ googlePlaceRepository.getPlaceDetailsInfoFromId("SomeId", "none").observe(this, 
             Log.i("DEBUGGG", finalPlace.getName());
         });
 ``` 
+
+### 3) Get geo-localisation :
+
+
+need 1 argument :   
+
+	* String address;
+	
+```java 
+googlePlaceRepository.getGeocodePlaceByAddress("SomeAddress").observe(this, geocodePlace -> {
+            Log.i("DEBUGGG", geocodePlace.getLatitude());
+	    Log.i("DEBUGGG", geocodePlace.getLongitude());
+        });
+``` 
+
 	
