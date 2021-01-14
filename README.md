@@ -94,8 +94,8 @@ need 1 argument :
 	
 ```java 
 googlePlaceRepository.getGeocodePlaceByAddress("SomeAddress").observe(this, geocodePlace -> {
-            Log.i("DEBUGGG", geocodePlace.getLatitude());
-	    Log.i("DEBUGGG", geocodePlace.getLongitude());
+            Log.i("DEBUGGG", geocodePlace.getLat());
+	    Log.i("DEBUGGG", geocodePlace.getLng());
         });
 ``` 
 
